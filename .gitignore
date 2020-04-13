@@ -1,0 +1,4 @@
+README.txt
+*.swp
+/mapuche_391/*
+!/mapuche_391/Dockerfile
