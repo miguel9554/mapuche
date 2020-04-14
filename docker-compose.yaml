@@ -2,19 +2,19 @@ version: '3.7'
 
 services:
   mapuche:
-    image: ${REGISTRY_HOSTNAME:-}mapuche:${APP_ENVIRONMENT:-DEV}
+    image: ${REGISTRY_HOSTNAME:-}mapuche:${APP_ENVIRONMENT:-dev}
     build:
       context: ./mapuche_391
       dockerfile: Dockerfile
       args:
         - APP_DIRECTORY=${APP_DIRECTORY:-/srv/mapuche}
-        - APP_ENVIRONMENT=${APP_ENVIRONMENT:-DEV}
+        - APP_ENVIRONMENT=${APP_ENVIRONMENT:-dev}
     ports:
       - "8000:80"
     volumes:
       - type: bind
-        source: ./.env.local
-        target: /srv/cambio/.env.local
+        source: ./mapuche_391/instalador.env
+        target: ${APP_DIRECTORY:-/srv/mapuche}/instalador.env
     depends_on:
       - db
   db:
@@ -22,7 +22,6 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: siu_mapuche
     volumes:
       - type: volume
         source: db-data
