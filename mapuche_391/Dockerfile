@@ -3,7 +3,7 @@ FROM php:7.1-apache-buster
 # Instalamos las extensiones de php, composer, yarn
 RUN apt-get update && apt-get install -y \ 
     libxml2-dev libpng-dev libpq-dev libcurl4-openssl-dev \
-    libmcrypt-dev gnupg2  git && \
+    libmcrypt-dev gnupg2 git unzip && \
     docker-php-ext-install xml && \
     docker-php-ext-install gd && \
     docker-php-ext-install pdo_pgsql && \
@@ -23,13 +23,25 @@ ARG APP_ENVIRONMENT
 ARG APP_DIRECTORY
 
 # Usamos la configuración por defecto que trae la imagen
-RUN if [ $APP_ENVIRONMENT = "PROD" ]; then export DEFAULT_PHP_INI_ENV='production'; else export DEFAULT_PHP_INI_ENV='development'; fi && mv "$PHP_INI_DIR/php.ini-${DEFAULT_PHP_INI_ENV}" "$PHP_INI_DIR/php.ini"
+RUN if [ $APP_ENVIRONMENT = "prod" ]; then export DEFAULT_PHP_INI_ENV='production'; else export DEFAULT_PHP_INI_ENV='development'; fi && mv "$PHP_INI_DIR/php.ini-${DEFAULT_PHP_INI_ENV}" "$PHP_INI_DIR/php.ini"
 
 # Copiamos el código fuente
 WORKDIR $APP_DIRECTORY
-COPY . . 
-RUN composer install --no-dev
-RUN chmod +x bin/instalador
-COPY instalador.env .
-RUN ./bin/instalador proyecto:instalar --crear-db
+ADD bin $APP_DIRECTORY/bin
+ADD deploy $APP_DIRECTORY/deploy
+ADD metadatos $APP_DIRECTORY/metadatos
+ADD personalizacion $APP_DIRECTORY/personalizacion
+ADD php $APP_DIRECTORY/php
+ADD sql $APP_DIRECTORY/sql
+ADD src $APP_DIRECTORY/src
+ADD temp $APP_DIRECTORY/temp
+ADD www $APP_DIRECTORY/www
+ADD menu.ini $APP_DIRECTORY
+ADD arai.json $APP_DIRECTORY
+ADD composer.json $APP_DIRECTORY
+ADD composer.lock $APP_DIRECTORY
+ADD proyecto.ini $APP_DIRECTORY
+
+# Instalamos las dependencias
+RUN composer install --no-dev && chmod +x bin/instalador
 
