@@ -1,6 +1,6 @@
 FROM php:7.1-apache-buster
 
-# Instalamos las extensiones de php, composer, yarn
+# Instalamos las extensiones de php, composer, yarn, habilitamos apache rewrite
 RUN apt-get update && apt-get install -y \ 
     libxml2-dev libpng-dev libpq-dev libcurl4-openssl-dev \
     libmcrypt-dev gnupg2 git unzip && \
@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | \
     tee /etc/apt/sources.list.d/yarn.list && apt-get update && \
-    apt-get install -y yarn
+    apt-get install -y yarn && \
+    a2enmod rewrite && service apache2 restart
 
 # Parámetros de la imagen
 ARG APP_ENVIRONMENT
@@ -45,3 +46,5 @@ ADD proyecto.ini $APP_DIRECTORY
 # Instalamos las dependencias
 RUN composer install --no-dev && chmod +x bin/instalador
 
+# Para tener color en la terminal
+ENV TERM xterm-256color
