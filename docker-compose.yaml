@@ -15,6 +15,9 @@ services:
       - type: bind
         source: ./mapuche_391/instalador.env
         target: ${APP_DIRECTORY:-/srv/mapuche}/instalador.env
+      - type: volume
+        source: toba-data
+        target: ${APP_DIRECTORY:-/srv/mapuche}/toba-data
     depends_on:
       - db
   db:
@@ -29,4 +32,5 @@ services:
 
 volumes:
   db-data:
+  toba-data:
 
