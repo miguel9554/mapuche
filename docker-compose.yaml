@@ -10,7 +10,7 @@ services:
         - APP_DIRECTORY=${APP_DIRECTORY:-/srv/mapuche}
         - APP_ENVIRONMENT=${APP_ENVIRONMENT:-dev}
     ports:
-      - "8000:80"
+      - 8000:80
     volumes:
       - type: bind
         source: ./mapuche_391/instalador.env
@@ -31,7 +31,12 @@ services:
     volumes:
       - type: volume
         source: db-data
-        target: /var/lib/mysql
+        target: /var/lib/postgresql/data
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
 volumes:
   db-data:
