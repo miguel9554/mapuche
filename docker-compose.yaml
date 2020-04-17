@@ -2,24 +2,24 @@ version: '3.7'
 
 services:
   mapuche:
-    image: ${REGISTRY_HOSTNAME:-}mapuche:${APP_ENVIRONMENT:-dev}
+    image: ${REGISTRY_HOSTNAME?err}mapuche:${APP_ENVIRONMENT:?err}
     build:
       context: ./mapuche_391
       dockerfile: Dockerfile
       args:
-        - APP_DIRECTORY=${APP_DIRECTORY:-/srv/mapuche}
-        - APP_ENVIRONMENT=${APP_ENVIRONMENT:-dev}
+        - APP_DIRECTORY=${APP_DIRECTORY:?err}
+        - APP_ENVIRONMENT=${APP_ENVIRONMENT:?err}
     ports:
       - 8000:80
     volumes:
       # Para poder cambiar la config sin rebuildear
       - type: bind
         source: ./mapuche_391/instalador.env
-        target: ${APP_DIRECTORY:-/srv/mapuche}/instalador.env
+        target: ${APP_DIRECTORY:?err}/instalador.env
       # Persistencia de personalizaciones
       - type: volume
         source: mapuche-personalizaciones
-        target: ${APP_DIRECTORY:-/srv/mapuche}/personalizacion
+        target: ${APP_DIRECTORY:?err}/personalizacion
       # Los datos de toba
       - type: volume
         source: toba-data
@@ -33,8 +33,8 @@ services:
   db:
     image: postgres:9.6.17
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${DB_USER:?err}
+      POSTGRES_PASSWORD: ${DB_USER:?err}
     volumes:
       - type: volume
         source: db-data
