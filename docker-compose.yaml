@@ -7,7 +7,7 @@ services:
       context: ./mapuche_391
       dockerfile: Dockerfile
       args:
-        - APP_DIRECTORY=${APP_DIRECTORY:?err}
+        - PROYECTO_DIR=${PROYECTO_DIR:?err}
         - APP_ENVIRONMENT=${APP_ENVIRONMENT:?err}
     ports:
       - 8000:80
@@ -15,11 +15,11 @@ services:
       # Para poder cambiar la config sin rebuildear
       - type: bind
         source: ./mapuche_391/instalador.env
-        target: ${APP_DIRECTORY:?err}/instalador.env
+        target: ${PROYECTO_DIR:?err}/instalador.env
       # Persistencia de personalizaciones
       - type: volume
         source: mapuche-personalizaciones
-        target: ${APP_DIRECTORY:?err}/personalizacion
+        target: ${PROYECTO_DIR:?err}/personalizacion
       # Los datos de toba
       - type: volume
         source: toba-data
@@ -30,6 +30,8 @@ services:
         target: /etc/apache2/sites-enabled
     depends_on:
       - db
+    env_file:
+      - .env
   db:
     image: postgres:9.6.17
     environment:
