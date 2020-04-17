@@ -1,8 +1,10 @@
 # Mapuche con Docker
 Con los archivos de este repositorio, se puede levantar Mapuche en contenedores y trabajar sobre estos, sin tener que instalar nada en el host. Los contenedores son tres:
+
 * Uno con el código fuente de Mapuche y todas las dependencias del sistema instaladas
 * Servidor de Postgres
 * Adminer
+
 El contenedor con el código de Mapuche no tiene la instalción realizada, y la BD se encuentra vacía inicialmente. Cada contenedor tiene volúmenes asociados para la persistencia de los datos.
 
 # Instalación
