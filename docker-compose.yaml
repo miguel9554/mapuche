@@ -12,12 +12,19 @@ services:
     ports:
       - 8000:80
     volumes:
+      # Para poder cambiar la config sin rebuildear
       - type: bind
         source: ./mapuche_391/instalador.env
         target: ${APP_DIRECTORY:-/srv/mapuche}/instalador.env
+      # Persistencia de personalizaciones
+      - type: volume
+        source: mapuche-personalizaciones
+        target: ${APP_DIRECTORY:-/srv/mapuche}/personalizacion
+      # Los datos de toba
       - type: volume
         source: toba-data
         target: /toba-data
+      # La configuración de Apache
       - type: volume
         source: apache-conf
         target: /etc/apache2/sites-enabled
@@ -37,9 +44,12 @@ services:
     restart: always
     ports:
       - 8080:8080
+    depends_on:
+      - db
 
 volumes:
   db-data:
   toba-data:
   apache-conf:
+  mapuche-personalizaciones:
 
