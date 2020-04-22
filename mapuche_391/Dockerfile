@@ -21,27 +21,27 @@ RUN apt-get update && apt-get install -y \
 
 # Parámetros de la imagen
 ARG APP_ENVIRONMENT
-ARG APP_DIRECTORY
+ARG PROYECTO_DIR
 
 # Usamos la configuración por defecto que trae la imagen
 RUN if [ $APP_ENVIRONMENT = "prod" ]; then export DEFAULT_PHP_INI_ENV='production'; else export DEFAULT_PHP_INI_ENV='development'; fi && mv "$PHP_INI_DIR/php.ini-${DEFAULT_PHP_INI_ENV}" "$PHP_INI_DIR/php.ini"
 
 # Copiamos el código fuente
-WORKDIR $APP_DIRECTORY
-ADD bin $APP_DIRECTORY/bin
-ADD deploy $APP_DIRECTORY/deploy
-ADD metadatos $APP_DIRECTORY/metadatos
-ADD personalizacion $APP_DIRECTORY/personalizacion
-ADD php $APP_DIRECTORY/php
-ADD sql $APP_DIRECTORY/sql
-ADD src $APP_DIRECTORY/src
-ADD temp $APP_DIRECTORY/temp
-ADD www $APP_DIRECTORY/www
-ADD menu.ini $APP_DIRECTORY
-ADD arai.json $APP_DIRECTORY
-ADD composer.json $APP_DIRECTORY
-ADD composer.lock $APP_DIRECTORY
-ADD proyecto.ini $APP_DIRECTORY
+WORKDIR $PROYECTO_DIR
+ADD bin $PROYECTO_DIR/bin
+ADD deploy $PROYECTO_DIR/deploy
+ADD metadatos $PROYECTO_DIR/metadatos
+ADD personalizacion $PROYECTO_DIR/personalizacion
+ADD php $PROYECTO_DIR/php
+ADD sql $PROYECTO_DIR/sql
+ADD src $PROYECTO_DIR/src
+ADD temp $PROYECTO_DIR/temp
+ADD www $PROYECTO_DIR/www
+ADD menu.ini $PROYECTO_DIR
+ADD arai.json $PROYECTO_DIR
+ADD composer.json $PROYECTO_DIR
+ADD composer.lock $PROYECTO_DIR
+ADD proyecto.ini $PROYECTO_DIR
 
 # Instalamos las dependencias
 RUN composer install --no-dev && chmod +x bin/instalador
