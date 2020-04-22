@@ -36,7 +36,7 @@ services:
     image: postgres:9.6.17
     environment:
       POSTGRES_USER: ${DB_USER:?err}
-      POSTGRES_PASSWORD: ${DB_USER:?err}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?err}
     volumes:
       - type: volume
         source: db-data
