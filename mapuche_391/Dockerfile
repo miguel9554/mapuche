@@ -48,3 +48,8 @@ RUN composer install --no-dev && chmod +x bin/instalador
 
 # Para tener color en la terminal
 ENV TERM xterm-256color
+
+# Hacemos coincidir el UID de www-data con el del host para evitar
+# problemas de propiedad con el bind
+ARG UID
+RUN usermod -u $UID www-data && groupmod -g $UID www-data && service apache2 restart

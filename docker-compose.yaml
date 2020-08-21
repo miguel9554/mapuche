@@ -9,6 +9,7 @@ services:
       args:
         - PROYECTO_DIR=${PROYECTO_DIR:?err}
         - APP_ENVIRONMENT=${APP_ENVIRONMENT:?err}
+        - UID=${UID:?err}
     ports:
       - 8000:80
     volumes:
