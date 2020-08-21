@@ -14,7 +14,7 @@ El código fuente de Mapuche debe descargarse del sitio de SIU. Debe colocarse e
 Para instalar, levantar todo con compose
 
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
 
 Instalar Mapuche y Toba
@@ -32,7 +32,7 @@ docker-compose exec mapuche ./bin/instalador permisos:simple -U root --no-intera
 Después, habilitar el sitio en apache
 
 ```bash
-docker-compose exec mapuche ln -s /toba-data/instalacion/toba.conf /etc/apache2/sites-enabled/mapuche.conf && service apache2 reload
+docker-compose exec mapuche ln -s /toba-data/instalacion/toba.conf /etc/apache2/sites-enabled/mapuche.conf && docker-compose exec mapuche service apache2 reload
 ```
 
 En este punto, ya se encuentra Mapuche instalado y listo para personalizar. La instalación y las personalizaciones quedan persitidas en volúmenes.
