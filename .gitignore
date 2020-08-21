@@ -3,3 +3,4 @@ README.txt
 /mapuche_391/*
 !/mapuche_391/Dockerfile
 !/mapuche_391/instalador.env
+.env
